@@ -2,9 +2,7 @@
 // Mendefinisikan apa yang harus diberikan oleh parent component
 
 import type { VisitorData, FormStatus } from "@/types";
-import { error } from "console";
 import { useEffect, useRef, useState } from "react";
-import { cursorTo } from "readline";
 
 
 interface GuestGateProps {
@@ -239,7 +237,7 @@ export function GuestGate({ onEnter }: GuestGateProps) {
                                         </label>
                                         <input
                                          type="email" 
-                                         className="input y2k" 
+                                         className="input-y2k" 
                                          id="visitor-email" 
                                          value={email}
                                          onChange={(e) => {

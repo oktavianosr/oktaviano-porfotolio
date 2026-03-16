@@ -145,7 +145,6 @@ export default async function handler(
             success: false,
             message: 'Something went wrong. Please try again.',
         } satisfies SubmitVisitorResponse)
-    }
-
+    }   
 }
 

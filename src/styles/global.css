@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES (Variables)
+   Semua warna dan nilai berulang disimpan di sini
+   ============================================================ */
+:root {
+  /* Warna utama Y2K */
+  --color-cyan:    #00FFFF;
+  --color-magenta: #FF00FF;
+  --color-yellow:  #FFFF00;
+  --color-green:   #00FF41;
+  --color-orange:  #FF6600;
+  --color-purple:  #9900FF;
+
+  /* Background */
+  --bg-primary:    #080810;
+  --bg-secondary:  #0d0d1a;
+  --bg-panel:      #12121e;
+  --bg-card:       #0a0a16;
+
+  /* Border */
+  --border-default: #1a1a3a;
+  --border-glow:    rgba(0, 255, 255, 0.3);
+  --border-magenta: rgba(255, 0, 255, 0.3);
+
+  /* Text */
+  --text-primary:   #e0e0ff;
+  --text-secondary: #6666aa;
+  --text-muted:     #333355;
+
+  /* Typography */
+  --font-display: 'VT323', monospace;
+  --font-mono:    'Share Tech Mono', monospace;
+
+  /* Spacing */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
+  --space-2xl: 64px;
+
+  /* Transition */
+  --transition-fast:   150ms ease;
+  --transition-normal: 300ms ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Sembunyikan scrollbar tapi tetap bisa scroll */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-cyan) var(--bg-secondary);
+}
+
+/* Custom scrollbar untuk WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-cyan);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-magenta);
+}
+
+body {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+
+  /* Sembunyikan default cursor — diganti PixelCursor component */
+  cursor: none;
+
+  /* Cegah text selection yang tidak disengaja */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tampilkan cursor default di input dan textarea */
+input,
+textarea,
+select {
+  cursor: text;
+}
+
+button,
+a,
+[role="button"] {
+  cursor: none;
+}
+
+/* Reset link style */
+a {
+  color: var(--color-cyan);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--color-magenta);
+}
+
+/* Reset list */
+ul,
+ol {
+  list-style: none;
+}
+
+/* Reset image */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Reset button */
+button {
+  background: none;
+  border: none;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   Class kecil yang bisa dipakai di mana saja
+   ============================================================ */
+
+/* Visually hidden tapi accessible untuk screen reader */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Text colors */
+.text-cyan    { color: var(--color-cyan); }
+.text-magenta { color: var(--color-magenta); }
+.text-yellow  { color: var(--color-yellow); }
+.text-green   { color: var(--color-green); }
+.text-muted   { color: var(--text-secondary); }
+
+/* Display font */
+.font-display { font-family: var(--font-display); }
+.font-mono    { font-family: var(--font-mono); }
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}

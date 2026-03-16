@@ -1,0 +1,1 @@
+{"root":["./src/App.tsx","./src/main.tsx","./src/components/GuestGate.tsx","./src/components/PixelCursor.tsx","./src/hooks/useVisitor.ts","./src/types/api.ts","./src/types/guest-gate.ts","./src/types/index.ts","./src/types/visitor.ts","./api/submit-visitor.ts"],"version":"5.9.3"}

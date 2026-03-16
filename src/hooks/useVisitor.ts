@@ -59,5 +59,28 @@ export function useVisitor(): UseVisitorReturn {
             // finally selalu dieksekusi setelah try/catch
             setIsLoading(false)
         }
-    }, [])
+    }, []) // dependency array kosong = jalankan hanya sekali saat komponen mount
+
+    // ---- fungsi untuk menyimpan visitor baru -----
+    // Omit<StoredVisitor, 'visitedAt'> = StoredVisitor tanpa field 'visitedAt'
+    // Karena visitedAt akan kita generate Otomatis disini
+
+    const saveVisitor = (data: Omit<StoredVisitor, 'visitedAt'>): void => {
+        const visitorWithTimestamp: StoredVisitor = {
+            ...data,
+            visitedAt: new Date().toISOString(),
+        }
+
+        try {
+            // Simpan ke localStorage sebagai JSON string
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(visitorWithTimestamp))
+            // Update state agar komponen langsung re render
+            setVisitor(visitorWithTimestamp)
+        } catch (error) {
+            console.warn('Could not save visitor data to localStorage:', error)
+            // Tetap update state meski localStorage gagal
+            // Visitor bisa lanjut tapi data tidak persistent
+            setVisitor(visitorWithTimestamp)
+        }
+    }
 }

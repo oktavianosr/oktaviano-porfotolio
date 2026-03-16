@@ -25,6 +25,8 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
         throw new Error('Missing NOTION_API_KEY or NOTION_DATABASE_ID env variable')
     }
 
+    const emailProperty = data.email && data.email.trim() !== '' ? { Email: { email: data.email.trim()}} : {}
+
     // Bangun request body sesuai format Notion API
     // Schema database: Name (title), Email, User Agent, Visited At
     const notionBody = {
@@ -43,9 +45,7 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
                 ]
             },
             // Email (opsional)
-            Email: {
-                email: data.email || null
-            },
+            ...emailProperty,
             // User Agent - info browser visitor
             "User Agent": {
                 rich_text: [
@@ -77,7 +77,7 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
     })
 
     if (!response.ok) {
-        const error = await response.json()
+        const error = await response.json() as { message?: string; code?: string}
         throw new Error(`Notion API error: ${error.message}`)
     }
 
@@ -126,9 +126,11 @@ export default async function handler(
         email: body.email && body.email.trim() !== '' ? body.email.trim() : undefined,
     }
 
+    const userAgent = req.headers['user-agent'] as string | undefined
+
     try {
         // kirim ke notion
-        await addVisitorToNotion(visitorData)
+        await addVisitorToNotion(visitorData, userAgent)
 
         res.status(200).json({
             success: true,

@@ -1,0 +1,164 @@
+/* ============================================================
+   Y2K ANIMATIONS
+   ============================================================ */
+
+/* ---- Blinking cursor / element ---- */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.blink {
+  animation: blink 1s step-end infinite;
+}
+
+.blink-slow {
+  animation: blink 2s step-end infinite;
+}
+
+/* ---- Scanlines overlay effect ---- */
+@keyframes scanlines {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+.scanlines {
+  position: relative;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 255, 0.03) 0px,
+    rgba(0, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ---- Glitch text effect ---- */
+@keyframes glitch-1 {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  20%       { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 2px); }
+  40%       { clip-path: inset(50% 0 30% 0); transform: translate(3px, -1px); }
+  60%       { clip-path: inset(70% 0 10% 0); transform: translate(-2px, 3px); }
+  80%       { clip-path: inset(10% 0 80% 0); transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-2 {
+  0%, 100% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  25%       { clip-path: inset(30% 0 50% 0); transform: translate(3px, -2px); }
+  50%       { clip-path: inset(60% 0 20% 0); transform: translate(-3px, 1px); }
+  75%       { clip-path: inset(80% 0 5% 0);  transform: translate(2px, -3px); }
+}
+
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);  /* teks sama dengan element asli */
+  position: absolute;
+  inset: 0;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.glitch::before {
+  color: var(--color-cyan);
+  animation: glitch-1 3s infinite linear;
+}
+
+.glitch::after {
+  color: var(--color-magenta);
+  animation: glitch-2 3s infinite linear;
+  animation-delay: 0.1s;
+}
+
+/* ---- Fade in from bottom ---- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Delay variants untuk staggered animation */
+.delay-1 { animation-delay: 0.1s; opacity: 0; }
+.delay-2 { animation-delay: 0.2s; opacity: 0; }
+.delay-3 { animation-delay: 0.3s; opacity: 0; }
+.delay-4 { animation-delay: 0.4s; opacity: 0; }
+.delay-5 { animation-delay: 0.5s; opacity: 0; }
+
+/* ---- Terminal typing cursor ---- */
+@keyframes cursor-blink {
+  0%, 100% { border-right-color: var(--color-cyan); }
+  50%       { border-right-color: transparent; }
+}
+
+.typing-cursor {
+  border-right: 2px solid var(--color-cyan);
+  animation: cursor-blink 0.8s step-end infinite;
+  padding-right: 2px;
+}
+
+/* ---- Boot sequence text (appears line by line) ---- */
+@keyframes boot-line {
+  from { max-height: 0; opacity: 0; }
+  to   { max-height: 40px; opacity: 1; }
+}
+
+.boot-line {
+  overflow: hidden;
+  animation: boot-line 0.3s ease forwards;
+}
+
+/* ---- Pulse glow ---- */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 4px rgba(0, 255, 255, 0.3); }
+  50%       { box-shadow: 0 0 12px rgba(0, 255, 255, 0.6); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ---- Screen flicker (subtle) ---- */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  92%       { opacity: 1; }
+  93%       { opacity: 0.95; }
+  94%       { opacity: 1; }
+  96%       { opacity: 0.98; }
+  97%       { opacity: 1; }
+}
+
+.flicker {
+  animation: flicker 8s infinite;
+}
+
+/* ---- Loading bar ---- */
+@keyframes loading-bar {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
+.loading-bar {
+  height: 2px;
+  background: var(--color-cyan);
+  animation: loading-bar 1.5s ease-in-out forwards;
+}

@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import '@/styles/global.css'
 import { GuestGate } from './components/GuestGate'
 import { VisitorData } from './types'
 import { useVisitor } from './hooks/useVisitor'
+import { PixelCursor } from './components/PixelCursor'
 
 
 
@@ -21,7 +21,6 @@ function MainPortofolio() {
 
 
 export default function App() {
-  const [count, setCount] = useState(0)
 
   const {hasVisited, isLoading, saveVisitor} = useVisitor()
 
@@ -32,6 +31,7 @@ export default function App() {
 
   return (
     <>
+      <PixelCursor/>
       {isLoading ? (
         // tampilkan nothing saat masih cek localStorage
         // mencegah flash GuestGate untuk returning visitor
@@ -44,5 +44,3 @@ export default function App() {
     </>
   )
 }
-
-export default App

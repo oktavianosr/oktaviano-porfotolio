@@ -47,12 +47,12 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
             // Email (opsional)
             ...emailProperty,
             // User Agent - info browser visitor
-            Visited_At: {
+            Date: {
                 date: {
                     start: new Date().toISOString()
                 }
             },
-            User_Agent: {
+            Browser: {
                 rich_text: [
                     {
                         text: {

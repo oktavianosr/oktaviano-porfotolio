@@ -25,17 +25,47 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
         throw new Error('Missing NOTION_API_KEY or NOTION_DATABASE_ID env variable')
     }
 
-    const emailProperty = data.email && data.email.trim() !== '' ? { Email: { email: data.email.trim()}} : {}
+    // Fetch database schema untuk mendapatkan nama property yang benar
+    const dbResponse = await fetch(`https://api.notion.com/v1/databases/${databaseId}`, {
+        headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Notion-Version': '2022-06-28',
+        },
+    })
 
-    // Bangun request body sesuai format Notion API
-    // Schema database: Name (title), Email, User Agent, Visited At
+    if (!dbResponse.ok) {
+        const dbError = await dbResponse.json() as { message?: string }
+        throw new Error(`Failed to fetch database schema: ${dbError.message}`)
+    }
+
+    const dbSchema = await dbResponse.json() as { properties: Record<string, { type: string }> }
+    const properties = dbSchema.properties || {}
+    const propertyNames = Object.keys(properties)
+    
+    console.log('Available properties in Notion database:', propertyNames)
+    console.log('Property types:', JSON.stringify(properties, null, 2))
+
+    // Cari nama property berdasarkan type
+    const titleProp = propertyNames.find((key) => properties[key]?.type === 'title') || 'Name'
+    const emailProp = propertyNames.find((key) => properties[key]?.type === 'email') || 'Email'
+    const dateProp = propertyNames.find((key) => properties[key]?.type === 'date') || 'Date'
+    const richTextProp = propertyNames.find((key) => properties[key]?.type === 'rich_text') || 'Browser'
+
+    console.log('Mapped properties:', { titleProp, emailProp, dateProp, richTextProp })
+
+    // Siapkan email property jika ada
+    const emailProperty = data.email && data.email.trim() !== '' 
+        ? { [emailProp]: { email: data.email.trim() } } 
+        : {}
+
+    // Bangun request body sesuai format Notion API menggunakan nama property yang benar
     const notionBody = {
         parent: {
             database_id: databaseId
         },
         properties: {
-            // Name adalah field title (wajib)
-            Name: {
+            // Title property (wajib)
+            [titleProp]: {
                 title: [
                     {
                         text: {
@@ -46,13 +76,14 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
             },
             // Email (opsional)
             ...emailProperty,
-            // User Agent - info browser visitor
-            Date: {
+            // Date property
+            [dateProp]: {
                 date: {
                     start: new Date().toISOString()
                 }
             },
-            Browser: {
+            // Browser/Rich text property
+            [richTextProp]: {
                 rich_text: [
                     {
                         text: {
@@ -61,7 +92,6 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
                     }
                 ]
             },
-            // Visited At - tanggal kunjungan
         }
     }
 
@@ -77,8 +107,9 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
     })
 
     if (!response.ok) {
-        const error = await response.json() as { message?: string; code?: string}
-        throw new Error(`Notion API error: ${error.message}`)
+        const error = await response.json() as { message?: string; code?: string; details?: any }
+        console.error('Notion API full error:', JSON.stringify(error, null, 2))
+        throw new Error(`Notion API error: ${error.message || JSON.stringify(error)}`)
     }
 
     return response.json() as Promise<NotionApiResponse>
@@ -147,4 +178,3 @@ export default async function handler(
         } satisfies SubmitVisitorResponse)
     }   
 }
-

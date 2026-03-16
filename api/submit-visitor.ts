@@ -47,7 +47,7 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
             // Email (opsional)
             ...emailProperty,
             // User Agent - info browser visitor
-            "User Agent": {
+            User_Agent: {
                 rich_text: [
                     {
                         text: {
@@ -57,7 +57,7 @@ async function addVisitorToNotion(data: SubmitVisitorRequest, userAgent?: string
                 ]
             },
             // Visited At - tanggal kunjungan
-            "Visited At": {
+            Visited_At: {
                 date: {
                     start: new Date().toISOString()
                 }

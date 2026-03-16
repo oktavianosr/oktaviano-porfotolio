@@ -83,4 +83,22 @@ export function useVisitor(): UseVisitorReturn {
             setVisitor(visitorWithTimestamp)
         }
     }
+
+    // hapus data visitor (development purpose)
+    const clearVisitor = (): void => {
+        try {
+            localStorage.removeItem(STORAGE_KEY)
+        } catch (error) {
+            console.warn('Could not clear visitor data:', error)
+        }
+        setVisitor(null)
+    }
+
+    return {
+        visitor,
+        isLoading,
+        hasVisited: visitor !== null,
+        saveVisitor,
+        clearVisitor,
+    }
 }

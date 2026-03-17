@@ -1,3 +1,4 @@
+import { NavLink, Project, SkillLevel } from './index';
 export interface VisitorData {
     name: string;
     email?: string; //nullable 
@@ -60,6 +61,7 @@ export interface Skill {
 export interface SkillCategory {
     category: string;
     skills: Skill[];
+    icon:string
 }
 
 //Navigation Types
@@ -88,3 +90,58 @@ export interface NavLink {
 
 // Record<K, V> - object dengan key tipe K dan Value tipe V
 // Contoh: record<ProjectCategory, Project[]> - grouping category
+
+// =============================================================
+// SECTION TYPES 
+// =============================================================
+
+//Union Type
+export type SectionId = 'about' | 'projects' | 'skills' | 'contact'
+
+export interface NavLinkItem {
+    label: string
+    sectionId: SectionId
+}
+
+// ==========================================================
+// ABOUT TYPES
+// ==========================================================
+
+export interface SocialLink {
+    platform: 'github' | 'linkedin' | 'email' | 'website'
+    url: string
+    label: string
+}
+
+export interface AboutData {
+    name:string
+    title: string
+    bio: string
+    location: string
+    availableForWork: boolean
+    socials: SocialLink[]
+}
+
+// ==========================================================
+// PROJECT TYPES
+// ==========================================================
+
+export type ProjectStatus = 'completed' | 'in-progress' | 'archived'
+
+export interface Project {
+    id: string
+    title: string
+    description: string
+    techStack: string[]
+    githubUrl?: string
+    liveUrl?: string
+    category: 'web' | 'mobile' | 'backend' | 'other'
+    status: ProjectStatus
+    year: number
+    featured: boolean 
+}
+
+// ==========================================================
+// SKILL TYPES
+// ==========================================================
+
